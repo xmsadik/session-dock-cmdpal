@@ -2,20 +2,27 @@
 
 Usage: python scripts/make-icons.py   (needs Pillow)
 
-The mark is a terracotta rounded square with a white eight-ray asterisk and a green status dot.
+The mark is a slate rounded square with a white terminal prompt (">_") and a green status dot.
 Everything is drawn at 1024 px and downsampled, so small sizes stay smooth.
 """
 
-import math
 from pathlib import Path
 
 from PIL import Image, ImageDraw
 
 ASSETS = Path(__file__).resolve().parent.parent / "src" / "ClaudeSessions" / "Assets"
 BASE = 1024
-TILE = (217, 119, 87, 255)  # terracotta
-RAY = (255, 255, 255, 255)
+TILE = (44, 62, 80, 255)  # slate
+INK = (255, 255, 255, 255)
 DOT = (34, 197, 94, 255)  # green: a live session
+
+
+def stroke(d: ImageDraw.ImageDraw, points: list[tuple[float, float]], width: float) -> None:
+    """Polyline with round caps and joins."""
+    d.line(points, fill=INK, width=int(width), joint="curve")
+    r = width / 2
+    for x, y in points:
+        d.ellipse((x - r, y - r, x + r, y + r), fill=INK)
 
 
 def icon(size: int) -> Image.Image:
@@ -23,20 +30,12 @@ def icon(size: int) -> Image.Image:
     d = ImageDraw.Draw(img)
     d.rounded_rectangle((0, 0, BASE - 1, BASE - 1), radius=int(BASE * 0.22), fill=TILE)
 
-    # Eight rounded rays, slightly up-left of centre to leave room for the dot.
-    cx, cy = BASE * 0.46, BASE * 0.46
-    inner, outer, width = BASE * 0.07, BASE * 0.30, BASE * 0.085
-    for i in range(8):
-        a = math.radians(i * 45 + 22.5)
-        x0, y0 = cx + inner * math.cos(a), cy + inner * math.sin(a)
-        x1, y1 = cx + outer * math.cos(a), cy + outer * math.sin(a)
-        d.line((x0, y0, x1, y1), fill=RAY, width=int(width))
-        r = width / 2
-        d.ellipse((x1 - r, y1 - r, x1 + r, y1 + r), fill=RAY)
-    r = inner + width * 0.2
-    d.ellipse((cx - r, cy - r, cx + r, cy + r), fill=RAY)
+    # Prompt chevron and cursor, up-left of centre to leave room for the dot.
+    w = BASE * 0.095
+    stroke(d, [(BASE * 0.22, BASE * 0.27), (BASE * 0.42, BASE * 0.45), (BASE * 0.22, BASE * 0.63)], w)
+    stroke(d, [(BASE * 0.47, BASE * 0.63), (BASE * 0.56, BASE * 0.63)], w)
 
-    # Status dot with a tile-coloured ring so it reads as separate from the rays.
+    # Status dot with a tile-coloured ring so it reads as separate from the prompt.
     dx, dy, dr, ring = BASE * 0.76, BASE * 0.76, BASE * 0.13, BASE * 0.045
     d.ellipse((dx - dr - ring, dy - dr - ring, dx + dr + ring, dy + dr + ring), fill=TILE)
     d.ellipse((dx - dr, dy - dr, dx + dr, dy + dr), fill=DOT)

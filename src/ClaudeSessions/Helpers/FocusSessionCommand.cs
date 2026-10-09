@@ -15,7 +15,7 @@ internal sealed partial class FocusSessionCommand : InvokableCommand
         _pid = session.Pid;
 
         // Command.Id must be non-empty for dock items too.
-        Id = $"ClaudeSessions.focus.{session.Pid}";
+        Id = $"SessionDock.focus.{session.Pid}";
         Name = name;
     }
 

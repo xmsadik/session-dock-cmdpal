@@ -1,15 +1,15 @@
-# Claude Sessions for Command Palette
+# Session Dock for Claude Code
 
 A PowerToys Command Palette extension that shows your live **Claude Code sessions** in the **Dock** and jumps to the right Windows Terminal tab when you click one.
 
-> Unofficial community project. Not affiliated with or endorsed by Anthropic or Microsoft.
+> Unofficial community project. Not affiliated with or endorsed by Anthropic or Microsoft. Claude and Claude Code are trademarks of Anthropic, PBC; they are used here only to say which tool this extension works with.
 
 <!-- screenshot: Dock band -->
 <!-- screenshot: session list flyout -->
 
 - **In the Dock:** one compact item showing your sessions and their state (🟢 working, 🟠 waiting for you, ⚪ idle).
 - **Click it:** the session list; pick a session to bring its terminal tab to the front.
-- **Also in the palette:** search **Claude Sessions** for the same list, with folder, status and how long the session has been in that status.
+- **Also in the palette:** search **Session Dock** for the same list, with folder, status and how long the session has been in that status.
 
 The extension is **read-only** for Claude Code's data: it never writes to your Claude files and makes no network calls.
 
@@ -51,30 +51,38 @@ Details and limits:
 
 ### 2. Download
 
-From the latest release download `ClaudeSessionsDev.cer` and `ClaudeSessions_<version>_x64.msix` (Intel/AMD) or `..._arm64.msix` (Arm). Not sure? Run `$env:PROCESSOR_ARCHITECTURE`: `AMD64` → x64, `ARM64` → arm64.
+From the latest release download `SessionDockDev.cer` and `SessionDock_<version>_x64.msix` (Intel/AMD) or `..._arm64.msix` (Arm). Not sure? Run `$env:PROCESSOR_ARCHITECTURE`: `AMD64` → x64, `ARM64` → arm64.
 
 ### 3. Trust the certificate (once per machine)
 
 The package is signed with a self-signed certificate. In **PowerShell as Administrator**, in the download folder:
 
 ```powershell
-Import-Certificate .\ClaudeSessionsDev.cer -CertStoreLocation Cert:\LocalMachine\TrustedPeople
+Import-Certificate .\SessionDockDev.cer -CertStoreLocation Cert:\LocalMachine\TrustedPeople
 ```
 
 ### 4. Install
 
 ```powershell
-Add-AppxPackage .\ClaudeSessions_<version>_x64.msix
+Add-AppxPackage .\SessionDock_<version>_x64.msix
 ```
 
 ### 5. Show it in the Dock
 
 1. Open Command Palette and run **Reload**.
-2. The *Claude Sessions* band usually appears by itself. If not, search **Claude Sessions**, open its context menu and run **Pin to Dock**.
+2. The *Session Dock* band usually appears by itself. If not, search **Session Dock**, open its context menu and run **Pin to Dock**.
 
 ### Update / Uninstall
 
 Update: install the newer `.msix` the same way, then **Reload**. Uninstall:
+
+```powershell
+Get-AppxPackage SessionDock | Remove-AppxPackage
+```
+
+### Upgrading from 0.1.x ("Claude Sessions")
+
+Version 0.2 renamed the extension and changed its package identity, so Windows treats it as a new app. Remove the old one first; its settings are not carried over, and the Dock band has to be pinned again if it does not appear by itself:
 
 ```powershell
 Get-AppxPackage ClaudeSessions | Remove-AppxPackage
@@ -82,7 +90,7 @@ Get-AppxPackage ClaudeSessions | Remove-AppxPackage
 
 ## Dock layouts
 
-Command Palette → *Claude Sessions* → *Settings* → **Dock layout**:
+Command Palette → *Session Dock* → *Settings* → **Dock layout**:
 
 | Layout | What you get |
 |---|---|
@@ -112,10 +120,10 @@ After deploying, run **Reload** in Command Palette.
 ### MSIX package
 
 ```powershell
-.\scripts\pack.ps1 -Platform x64 -Sign   # dist\...\ClaudeSessions_<ver>_x64.msix + dist\ClaudeSessionsDev.cer
+.\scripts\pack.ps1 -Platform x64 -Sign   # dist\...\SessionDock_<ver>_x64.msix + dist\SessionDockDev.cer
 ```
 
-`-Platform ARM64` builds the Arm package. The first `-Sign` run creates a self-signed `CN=ClaudeSessionsDev` code-signing certificate in `Cert:\CurrentUser\My` and reuses it afterwards. The Release build is trimmed and must publish with 0 trim/AOT warnings.
+`-Platform ARM64` builds the Arm package. The first `-Sign` run creates a self-signed `CN=SessionDockDev` code-signing certificate in `Cert:\CurrentUser\My` and reuses it afterwards. The Release build is trimmed and must publish with 0 trim/AOT warnings.
 
 ## Layout
 
@@ -128,7 +136,7 @@ scripts/                   dev-deploy.ps1, pack.ps1
 
 ## Diagnostics
 
-Errors and one line per click (result and elapsed ms) go to `%LOCALAPPDATA%\ClaudeSessions\diag.log` (under `%LOCALAPPDATA%\Packages\<package family>\LocalCache\Local\ClaudeSessions\` when installed as MSIX), rolled at 1 MB.
+Errors and one line per click (result and elapsed ms) go to `%LOCALAPPDATA%\SessionDock\diag.log` (under `%LOCALAPPDATA%\Packages\<package family>\LocalCache\Local\SessionDock\` when installed as MSIX), rolled at 1 MB.
 
 ## Known limitations
 

@@ -23,8 +23,8 @@ public partial class ClaudeSessionsCommandsProvider : CommandProvider
 
     public ClaudeSessionsCommandsProvider()
     {
-        DisplayName = "Claude Sessions";
-        Id = "ClaudeSessions";
+        DisplayName = "Session Dock for Claude Code";
+        Id = "SessionDock";
         Icon = IconHelpers.FromRelativePath("Assets\\StoreLogo.png");
 
         _store = new SessionStore(() => _settingsManager.RefreshInterval);
@@ -53,7 +53,7 @@ public partial class ClaudeSessionsCommandsProvider : CommandProvider
         _summaryPage = new SessionsSummaryPage(_store, _settingsManager, _page);
         _band = new SessionsBand(_store, _summaryPage);
         _listBand = new SessionsBand(_store, _page);
-        _dockBand = new WrappedDockItem(CurrentDockItems(), "ClaudeSessions.dock.sessions", "Claude Sessions");
+        _dockBand = new WrappedDockItem(CurrentDockItems(), "SessionDock.dock.sessions", "Session Dock");
 
         // Compact: the band item updates itself via property setters. Per-session: RaiseItemsChanged
         // does not reach the Dock wrapper, so reassign Items on every change.

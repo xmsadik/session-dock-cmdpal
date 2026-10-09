@@ -23,9 +23,9 @@ internal sealed partial class SessionsSummaryPage : ContentPage, IDisposable
         _settings = settings;
         _listPage = listPage;
 
-        Id = "ClaudeSessions.page.summary";
-        Name = "Claude Sessions";
-        Title = "Claude Sessions";
+        Id = "SessionDock.page.summary";
+        Name = "Session Dock";
+        Title = "Session Dock";
         RebuildCommands();
         _store.Changed += OnStoreChanged;
     }

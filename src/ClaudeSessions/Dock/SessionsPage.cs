@@ -8,7 +8,7 @@ using Microsoft.CommandPalette.Extensions.Toolkit;
 namespace ClaudeSessions;
 
 /// <summary>
-/// The "Claude Sessions" ListPage in the palette, and the item factory for the Dock band. The Dock
+/// The "Session Dock" ListPage in the palette, and the item factory for the Dock band. The Dock
 /// band is a separate WrappedDockItem whose Items must be reassigned on change (RaiseItemsChanged
 /// does not reach it), so <see cref="Refreshed"/> tells the provider to do that.
 /// </summary>
@@ -21,9 +21,9 @@ internal sealed partial class SessionsPage : ListPage, IDisposable
         _store = store;
         _store.Changed += OnStoreChanged;
 
-        Id = "ClaudeSessions.page.sessions";
-        Title = "Claude Sessions";
-        Name = "Claude Sessions";
+        Id = "SessionDock.page.sessions";
+        Title = "Session Dock";
+        Name = "Session Dock";
         Icon = IconHelpers.FromRelativePath("Assets\\StoreLogo.png");
         PlaceholderText = "Focus a Claude Code session";
     }

@@ -15,7 +15,7 @@ namespace ClaudeSessions.Notifications;
 /// </summary>
 internal sealed partial class SessionNotifier
 {
-    private const string ToastGroup = "claude-sessions";
+    private const string ToastGroup = "session-dock";
 
     private volatile bool _disabled;
 

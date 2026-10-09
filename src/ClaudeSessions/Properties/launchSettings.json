@@ -1,10 +1,10 @@
 {
   "profiles": {
-    "ClaudeSessions (Package)": {
+    "SessionDock (Package)": {
       "commandName": "MsixPackage",
       "doNotLaunchApp": true
     },
-    "ClaudeSessions (Unpackaged)": {
+    "SessionDock (Unpackaged)": {
       "commandName": "Project"
     }
   }

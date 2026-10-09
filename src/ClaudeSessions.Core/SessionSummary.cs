@@ -84,7 +84,7 @@ public static class SessionSummary
     public static string Markdown(IReadOnlyList<SessionRecord> sorted, DateTimeOffset now)
     {
         var sb = new System.Text.StringBuilder();
-        sb.AppendLine("# Claude Sessions").AppendLine();
+        sb.AppendLine("# Claude Code sessions").AppendLine();
         sb.AppendLine(Subtitle(sorted)).AppendLine();
         if (sorted.Count == 0)
         {

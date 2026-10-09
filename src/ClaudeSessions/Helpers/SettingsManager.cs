@@ -15,7 +15,7 @@ internal sealed partial class SettingsManager : JsonSettingsManager
     public const string NotifyWaiting = "waiting";
     public const string NotifyWaitingFinished = "waitingFinished";
 
-    private static readonly string _namespace = "ClaudeSessions";
+    private static readonly string _namespace = "SessionDock";
 
     private static string Namespaced(string propertyName) => $"{_namespace}.{propertyName}";
 
@@ -72,7 +72,7 @@ internal sealed partial class SettingsManager : JsonSettingsManager
 
     internal static string SettingsJsonPath()
     {
-        var directory = Utilities.BaseSettingsPath("ClaudeSessions");
+        var directory = Utilities.BaseSettingsPath("SessionDock");
         Directory.CreateDirectory(directory);
 
         return Path.Combine(directory, "settings.json");

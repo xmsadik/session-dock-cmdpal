@@ -3,7 +3,7 @@ using System.Text;
 namespace ClaudeSessions.Core;
 
 /// <summary>
-/// Minimal diagnostics: appends to %LOCALAPPDATA%\ClaudeSessions\diag.log (virtualized under the
+/// Minimal diagnostics: appends to %LOCALAPPDATA%\SessionDock\diag.log (virtualized under the
 /// package's LocalCache when running as MSIX). Only errors and one summary line per focus click.
 /// The file is rolled to diag.log.old once it reaches 1 MB.
 /// </summary>
@@ -13,7 +13,7 @@ public static class DiagLog
     private static readonly object Gate = new();
     private static readonly int Pid = Environment.ProcessId;
     private static readonly string LogPath = Path.Combine(
-        Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "ClaudeSessions", "diag.log");
+        Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "SessionDock", "diag.log");
 
     public static void WriteLine(string message)
     {

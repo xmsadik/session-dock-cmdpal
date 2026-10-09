@@ -2,6 +2,7 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <RootNamespace>ClaudeSessions</RootNamespace>
+    <AssemblyName>SessionDock</AssemblyName>
     <ApplicationManifest>app.manifest</ApplicationManifest>
 
     <WindowsSdkPackageVersion>10.0.26100.68-preview</WindowsSdkPackageVersion>
