@@ -125,13 +125,19 @@ After deploying, run **Reload** in Command Palette.
 
 `-Platform ARM64` builds the Arm package. The first `-Sign` run creates a self-signed `CN=SessionDockDev` code-signing certificate in `Cert:\CurrentUser\My` and reuses it afterwards. The Release build is trimmed and must publish with 0 trim/AOT warnings.
 
+Back up that certificate (with its private key) so a rebuilt machine can keep signing updates that existing installs accept; otherwise every user has to trust a new `.cer`:
+
+```powershell
+.\scripts\backup-signing-cert.ps1 -Destination <backup folder>   # prompts for a password, writes SessionDock-signing.pfx
+```
+
 ## Layout
 
 ```
 src/ClaudeSessions/        Command Palette extension (Dock band, flyout, list pages, settings)
 src/ClaudeSessions.Core/   Plain .NET library: session parser, scanner, liveness, terminal focus (UIA)
 tests/ClaudeSessions.Tests xUnit tests for Core
-scripts/                   dev-deploy.ps1, pack.ps1
+scripts/                   dev-deploy.ps1, pack.ps1, backup-signing-cert.ps1
 ```
 
 ## Diagnostics
