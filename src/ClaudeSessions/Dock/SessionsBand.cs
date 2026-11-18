@@ -5,7 +5,7 @@ using Microsoft.CommandPalette.Extensions.Toolkit;
 
 namespace ClaudeSessions;
 
-/// <summary>The single compact Dock item: counts text, most-urgent icon; opens <paramref name="target"/> (list or summary page).</summary>
+/// <summary>The single compact Dock item: one fixed vector icon plus plain-text counts; opens <paramref name="target"/> (list or summary page).</summary>
 internal sealed partial class SessionsBand : ListItem, IDisposable
 {
     private readonly SessionStore _store;
@@ -14,6 +14,7 @@ internal sealed partial class SessionsBand : ListItem, IDisposable
         : base(target)
     {
         _store = store;
+        Icon = Glyphs.Band; // a single fixed vector icon; state lives in the plain-text title
         _store.Changed += OnStoreChanged;
         Render();
     }
@@ -36,7 +37,6 @@ internal sealed partial class SessionsBand : ListItem, IDisposable
     {
         var sessions = _store.Sessions;
         Title = SessionSummary.CountsText(sessions);
-        Icon = new IconInfo(SessionSummary.BandIcon(sessions));
         Subtitle = SessionSummary.Subtitle(sessions);
     }
 }

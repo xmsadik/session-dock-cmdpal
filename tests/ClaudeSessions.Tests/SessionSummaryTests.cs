@@ -23,20 +23,11 @@ public class SessionSummaryTests
     [Fact]
     public void Counts_text_omits_zero_groups()
     {
-        Assert.Equal("🟠1 🟢2 ⚪3", SessionSummary.CountsText([
+        Assert.Equal("◆1 ●2 ○3", SessionSummary.CountsText([
             S(1, SessionStatus.Busy), S(2, SessionStatus.Shell), S(3, SessionStatus.Waiting),
             S(4, SessionStatus.Idle), S(5, SessionStatus.Idle), S(6, SessionStatus.Idle)]));
-        Assert.Equal("⚪1", SessionSummary.CountsText([S(1, SessionStatus.Idle)]));
+        Assert.Equal("○1", SessionSummary.CountsText([S(1, SessionStatus.Idle)]));
         Assert.Equal("—", SessionSummary.CountsText([]));
-    }
-
-    [Fact]
-    public void Band_icon_is_most_urgent()
-    {
-        Assert.Equal("🟠", SessionSummary.BandIcon([S(1, SessionStatus.Busy), S(2, SessionStatus.Waiting)]));
-        Assert.Equal("🟢", SessionSummary.BandIcon([S(1, SessionStatus.Idle), S(2, SessionStatus.Shell)]));
-        Assert.Equal("⚪", SessionSummary.BandIcon([S(1, SessionStatus.Idle)]));
-        Assert.Equal("⚪", SessionSummary.BandIcon([]));
     }
 
     [Fact]

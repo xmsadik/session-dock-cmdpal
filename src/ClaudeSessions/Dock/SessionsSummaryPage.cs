@@ -59,6 +59,6 @@ internal sealed partial class SessionsSummaryPage : ContentPage, IDisposable
         items.Add(new CommandContextItem(_listPage) { Title = "Open in palette" });
         items.Add(new CommandContextItem(_settings.Settings.SettingsPage));
         Commands = items.ToArray();
-        Icon = new IconInfo(SessionSummary.BandIcon(_store.Sessions));
+        Icon = Glyphs.Band;
     }
 }

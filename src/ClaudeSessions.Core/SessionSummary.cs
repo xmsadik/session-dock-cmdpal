@@ -31,35 +31,36 @@ public static class SessionSummary
         return (waiting, working, idle);
     }
 
-    /// <summary>"🟠1 🟢2 ⚪3" (waiting, working, idle - most urgent first); zero groups omitted; "—" when empty.</summary>
+    /// <summary>Monochrome text symbols for the band title: waiting, working, idle.</summary>
+    public const string WaitingSymbol = "◆"; // black diamond
+    public const string WorkingSymbol = "●"; // black circle
+    public const string IdleSymbol = "○";    // white circle
+
+    /// <summary>
+    /// "◆1 ●2 ○3" (waiting, working, idle - most urgent first); zero groups omitted; "—" when empty.
+    /// Monochrome geometric shapes on purpose: they take the text colour, whereas colour emoji would
+    /// render as extra icons next to the band's vector icon.
+    /// </summary>
     public static string CountsText(IEnumerable<SessionRecord> sessions)
     {
         var (waiting, working, idle) = Counts(sessions);
         var parts = new List<string>();
         if (waiting > 0)
         {
-            parts.Add(SessionPresentation.Indicator(SessionStatus.Waiting) + waiting);
+            parts.Add(WaitingSymbol + waiting);
         }
 
         if (working > 0)
         {
-            parts.Add(SessionPresentation.Indicator(SessionStatus.Busy) + working);
+            parts.Add(WorkingSymbol + working);
         }
 
         if (idle > 0)
         {
-            parts.Add(SessionPresentation.Indicator(SessionStatus.Idle) + idle);
+            parts.Add(IdleSymbol + idle);
         }
 
         return parts.Count == 0 ? "—" : string.Join(' ', parts);
-    }
-
-    /// <summary>Icon of the most urgent state present; idle icon when there are no sessions.</summary>
-    public static string BandIcon(IEnumerable<SessionRecord> sessions)
-    {
-        var (waiting, working, _) = Counts(sessions);
-        return SessionPresentation.Indicator(
-            waiting > 0 ? SessionStatus.Waiting : working > 0 ? SessionStatus.Busy : SessionStatus.Idle);
     }
 
     /// <summary>"3 Claude sessions · 1 waiting", "No Claude sessions".</summary>
