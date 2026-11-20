@@ -254,3 +254,16 @@ public class ProcessLivenessTests
         Assert.False(ProcessLiveness.IsAlive(rec));
     }
 }
+
+public class SessionStoreTests
+{
+    [Fact]
+    public void Dispose_TwiceDoesNotThrow()
+    {
+        // The host and a retiring extension instance may both dispose the same provider.
+        var store = new SessionStore(() => TimeSpan.FromSeconds(2), Path.GetTempPath(), _ => false);
+        store.Start();
+        store.Dispose();
+        store.Dispose();
+    }
+}

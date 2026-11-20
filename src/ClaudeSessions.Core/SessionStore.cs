@@ -14,6 +14,7 @@ public sealed class SessionStore : IDisposable
     private readonly object _gate = new();
     private IReadOnlyList<SessionRecord> _current = [];
     private Task? _loop;
+    private int _disposed;
 
     public SessionStore(Func<TimeSpan> interval, string? directory = null, Func<SessionRecord, bool>? isAlive = null)
     {
@@ -69,8 +70,14 @@ public sealed class SessionStore : IDisposable
         return changed;
     }
 
+    /// <summary>Idempotent: the host and a retiring extension instance may both dispose the provider.</summary>
     public void Dispose()
     {
+        if (Interlocked.Exchange(ref _disposed, 1) != 0)
+        {
+            return;
+        }
+
         _cts.Cancel();
         _cts.Dispose();
     }
